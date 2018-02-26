@@ -13,6 +13,7 @@ $class = $loader->load(
     function (Compiler $compiler) use ($baseDir) {
         $compiler->addConfig(['parameters' => ['baseDir' => $baseDir]]);
         $compiler->loadConfig($baseDir . '/src/config/config.neon');
+        $compiler->loadConfig($baseDir . '/src/config/api.neon');
     }
 );
 

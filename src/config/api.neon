@@ -1,0 +1,10 @@
+parameters:
+    api:
+        handlers:
+            errorHandler: errorHandlerService
+            notFoundHandler: notFoundErrorHandlerService
+            notAllowedHandler: notAllowedErrorHandlerService
+        routes:
+            '/game/save':
+                post:
+                    service: gameActionService

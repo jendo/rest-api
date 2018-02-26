@@ -1,5 +1,5 @@
 <?php
-use App\Application;
+use MyApp\Application;
 use Nette\DI\Container;
 
 /** @var Container $container */

@@ -1,5 +1,17 @@
 parameters:
     logFile: %baseDir%/logs/log.txt
+    slimConfiguration:
+        settings:
+            httpVersion: '1.1'
+            addContentLengthHeader: false
+            displayErrorDetails: true
+            outputBuffering: 'append'
+            defaultContentType: 'application/json'
 
 services:
-    application: App\Application
+    application: MyApp\Application
+    - MyApp\Slim\ApplicationFactory
+    gameActionService: MyApp\Action\Game
+    errorHandlerService: MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%)
+    notFoundErrorHandlerService: MyApp\Handlers\NotFoundHandler
+    notAllowedErrorHandlerService: MyApp\Handlers\NotAllowedHandler
