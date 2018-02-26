@@ -6,5 +6,7 @@ parameters:
             notAllowedHandler: notAllowedErrorHandlerService
         routes:
             '/game/save':
-                post:
-                    service: gameActionService
+                get:
+                    service: actionService
+                    middleware:
+                        - dummyMiddleware

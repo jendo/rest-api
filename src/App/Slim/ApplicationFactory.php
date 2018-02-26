@@ -67,8 +67,21 @@ class ApplicationFactory
     {
         foreach ($routeData as $method => $config) {
             $serviceName = $config['service'];
-            $this->registerServiceIntoContainer($slimApp, $serviceName);
+            $this->registerServiceIntoSlimContainer($slimApp, $serviceName);
             $routeToAdd = $slimApp->map([$method], $routePattern, $serviceName);
+
+            if (isset($config['middleware']) && count($config['middleware']) > 0) {
+                foreach ($config['middleware'] as $middleware) {
+                    $slimContainer = $slimApp->getContainer();
+
+                    if (!$slimContainer->has($middleware)) {
+                        $this->registerServiceIntoSlimContainer($slimApp, $middleware);
+                    }
+
+                    $routeToAdd->add($middleware);
+                }
+            }
+
         }
     }
 
@@ -76,7 +89,7 @@ class ApplicationFactory
      * @param SlimApp $slimApp
      * @param string $serviceName
      */
-    private function registerServiceIntoContainer(SlimApp $slimApp, $serviceName)
+    private function registerServiceIntoSlimContainer(SlimApp $slimApp, $serviceName)
     {
         $service = $this->getServiceProvider($serviceName);
         $slimApp->getContainer()[$serviceName] = $service;

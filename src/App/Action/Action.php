@@ -1,10 +1,11 @@
 <?php
 namespace MyApp\Action;
 
+use MyApp\Response\ResponseStatus;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class Game implements ActionHandlerInterface
+class Action implements ActionHandlerInterface
 {
 
     /**
@@ -20,6 +21,6 @@ class Game implements ActionHandlerInterface
         $data = array('name' => 'Bob', 'age' => 40);
         $responseBody->write(json_encode($data));
 
-        return $response->withStatus('asd');
+        return $response->withStatus(ResponseStatus::S200_OK);
     }
 }

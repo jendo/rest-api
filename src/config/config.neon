@@ -11,7 +11,8 @@ parameters:
 services:
     application: MyApp\Application
     - MyApp\Slim\ApplicationFactory
-    gameActionService: MyApp\Action\Game
+    dummyMiddleware: MyApp\Middleware\DummyMiddleware
+    actionService: MyApp\Action\Action
     errorHandlerService: MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%)
     notFoundErrorHandlerService: MyApp\Handlers\NotFoundHandler
     notAllowedErrorHandlerService: MyApp\Handlers\NotAllowedHandler
