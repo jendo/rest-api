@@ -1,12 +1,12 @@
 parameters:
     api:
         handlers:
-            errorHandler: errorHandlerService
-            notFoundHandler: notFoundErrorHandlerService
-            notAllowedHandler: notAllowedErrorHandlerService
+            errorHandler: MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%)
+            notFoundHandler: MyApp\Handlers\NotFoundHandler
+            notAllowedHandler: MyApp\Handlers\NotAllowedHandler
         routes:
             '/game/save':
                 get:
-                    service: actionService
+                    service: MyApp\Action\Action
                     middleware:
-                        - dummyMiddleware
+                        - MyApp\Middleware\DummyMiddleware

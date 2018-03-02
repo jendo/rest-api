@@ -11,8 +11,8 @@ parameters:
 services:
     application: MyApp\Application
     - MyApp\Slim\ApplicationFactory
-    dummyMiddleware: MyApp\Middleware\DummyMiddleware
-    actionService: MyApp\Action\Action
-    errorHandlerService: MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%)
-    notFoundErrorHandlerService: MyApp\Handlers\NotFoundHandler
-    notAllowedErrorHandlerService: MyApp\Handlers\NotAllowedHandler
+    - MyApp\Middleware\DummyMiddleware
+    - MyApp\Action\Action
+    - MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%)
+    - MyApp\Handlers\NotFoundHandler
+    - MyApp\Handlers\NotAllowedHandler

@@ -4,6 +4,7 @@ namespace MyApp\Slim;
 use Closure;
 use LogicException;
 use Nette\DI\Container;
+use Nette\DI\Statement;
 
 class ApplicationFactory
 {
@@ -36,7 +37,13 @@ class ApplicationFactory
         }
 
         foreach ($configuration['handlers'] as $handler => $serviceName) {
-            $slimApp->getContainer()[$handler] = $this->getServiceProvider($serviceName);
+
+            if ($serviceName instanceof Statement) {
+                $serviceName = $serviceName->entity;
+            }
+
+            $service = $this->getServiceProvider($serviceName);
+            $slimApp->getContainer()[$handler] = $service;
         }
 
         return $slimApp;
