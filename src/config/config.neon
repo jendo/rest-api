@@ -7,12 +7,17 @@ parameters:
             displayErrorDetails: true
             outputBuffering: 'append'
             defaultContentType: 'application/json'
+    redis:
+        connectionString: 'tcp://127.0.0.1:6379'
 
 services:
     application: MyApp\Application
     - MyApp\Slim\ApplicationFactory
     - MyApp\Middleware\DummyMiddleware
-    - MyApp\Action\Action
+    - MyApp\Action\Game\Save\SaveAction
+    - MyApp\Action\Game\Result\ResultAction
     - MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%)
     - MyApp\Handlers\NotFoundHandler
     - MyApp\Handlers\NotAllowedHandler
+    - Predis\Client(%redis.connectionString%)
+    - MyApp\Redis\Repository

@@ -1,17 +1,16 @@
 <?php
 namespace MyApp\Action;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface ActionHandlerInterface
 {
-
     /**
-     * @param RequestInterface $request
+     * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param array $arguments
-     * @return ResponseInterface
+     * @return mixed
      */
-    public function __invoke(RequestInterface $request, ResponseInterface $response, array $arguments = []);
+    public function __invoke(ServerRequestInterface  $request, ResponseInterface $response, array $arguments = []);
 }
