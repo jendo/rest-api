@@ -1,10 +1,9 @@
-**Own REST API implementaion usign SLIM framework**
+# Own REST API implementaion
 
-My own rest api server using SLIM framework and nette DIC with REDIS as primary storage.
+My own rest api server implementation using SLIM framework and nette DIC with REDIS as primary storage.
+API routes are configured via *api.neon* file with registered services in *config.neon* file.
 
-API routes are configured via api.neon file with registered services in config.neon.
-
-**API endpoints**
+## API endpoints
 
 **POST: /user/create**
 - create new user
