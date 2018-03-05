@@ -5,6 +5,9 @@ parameters:
             notFoundHandler: MyApp\Handlers\NotFoundHandler
             notAllowedHandler: MyApp\Handlers\NotAllowedHandler
         routes:
+            '/user/create':
+                post:
+                    service: MyApp\Action\User\Create\CreateAction
             '/game/save':
                 post:
                     service: MyApp\Action\Game\Save\SaveAction

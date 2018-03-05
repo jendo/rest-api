@@ -16,6 +16,7 @@ services:
     - MyApp\Middleware\DummyMiddleware
     - MyApp\Action\Game\Save\SaveAction
     - MyApp\Action\Game\Result\ResultAction
+    - MyApp\Action\User\Create\CreateAction
     - MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%)
     - MyApp\Handlers\NotFoundHandler
     - MyApp\Handlers\NotAllowedHandler
