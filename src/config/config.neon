@@ -13,11 +13,11 @@ parameters:
 services:
     application: MyApp\Application
     - MyApp\Slim\ApplicationFactory
-    - MyApp\Middleware\DummyMiddleware
+    - MyApp\Middleware\UserValidatorMiddleware
     - MyApp\Action\Game\Save\SaveAction
     - MyApp\Action\Game\Result\ResultAction
     - MyApp\Action\User\Create\CreateAction
-    - MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%)
+    - MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%, %slimConfiguration.settings.defaultContentType%)
     - MyApp\Handlers\NotFoundHandler
     - MyApp\Handlers\NotAllowedHandler
     - Predis\Client(%redis.connectionString%)

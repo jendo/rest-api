@@ -8,11 +8,11 @@ parameters:
             '/user/create':
                 post:
                     service: MyApp\Action\User\Create\CreateAction
+                    middleware:
+                        - MyApp\Middleware\UserValidatorMiddleware
             '/game/save':
                 post:
                     service: MyApp\Action\Game\Save\SaveAction
-                    middleware:
-                        - MyApp\Middleware\DummyMiddleware
             '/game-result/{id}':
                 get:
                     service: MyApp\Action\Game\Result\ResultAction
