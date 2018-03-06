@@ -1,18 +1,23 @@
 <?php
 namespace MyApp\Middleware;
 
-use MyApp\Action\User\UserApiFields;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class UserValidatorMiddleware implements MiddlewareInterface
+class UserValidatorMiddleware extends ValidatorMiddleware
 {
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return array
+     */
+    protected function getErrors(ServerRequestInterface $request, ResponseInterface $response)
     {
         $input = $request->getParsedBody();
-        $userId = $input[UserApiFields::USER_ID];
 
-        return $next($request, $response);
+        if ($input === null) {
+            return ['Body must not be empty.'];
+        }
     }
 }
