@@ -27,12 +27,7 @@ class BadRequestException extends Exception
      */
     public function getErrors()
     {
-        $errors = [];
-        foreach ($this->errors as $error) {
-            $errors[]['message'] = $error;
-        }
-
-        return $errors;
+        return $this->errors;
     }
 
 }

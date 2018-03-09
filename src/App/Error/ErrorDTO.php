@@ -1,7 +1,7 @@
 <?php
-namespace MyApp\Validation;
+namespace MyApp\Error;
 
-class ValidationError
+class ErrorDTO
 {
     const INVALID_VALUE_TYPE = 'invalidValue';
     const FIELD_NOT_EXPECTED = 'fieldNotExpected';
@@ -29,6 +29,11 @@ class ValidationError
     private $parameters;
 
     /**
+     * @var array
+     */
+    private $details = [];
+
+    /**
      * @param string $propertyPath
      * @param string $message
      * @param string $code
@@ -43,17 +48,33 @@ class ValidationError
     }
 
     /**
-     * @return string
+     * @param array $detail
      */
-    public function __toString()
+    public function setDetails(array $detail)
     {
-        return sprintf('[%s] %s', $this->propertyPath, $this->message);
+        $this->details[] = $detail;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDetails(): array
+    {
+        return $this->details;
     }
 
     /**
      * @return string
      */
-    public function getCode()
+    public function __toString()
+    {
+        return sprintf('%s %s', $this->propertyPath, $this->message);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -61,7 +82,7 @@ class ValidationError
     /**
      * @return array
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }
@@ -69,7 +90,7 @@ class ValidationError
     /**
      * @return string
      */
-    public function getPropertyPath()
+    public function getPropertyPath(): string
     {
         return $this->propertyPath;
     }

@@ -2,6 +2,7 @@
 namespace MyApp\Handlers;
 
 use Exception;
+use MyApp\Error\ErrorDTO;
 use MyApp\Exception\BadRequestException;
 use MyApp\Response\ResponseStatus;
 use Psr\Http\Message\RequestInterface;
@@ -51,13 +52,11 @@ class ErrorHandler
     {
         $code = ResponseStatus::S500_INTERNAL_SERVER_ERROR;
 
-        $error['message'] = 'Internal server error';
+        $error = new ErrorDTO('', 'Internal server error');
 
         if ($this->displayErrorDetails) {
-            $error['details'] = [];
-
             do {
-                $error['details'][] = [
+                $detail = [
                     'type' => get_class($e),
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),
@@ -65,6 +64,7 @@ class ErrorHandler
                     'line' => $e->getLine(),
                     'trace' => explode("\n", $e->getTraceAsString()),
                 ];
+                $error->setDetails($detail);
             } while ($e = $e->getPrevious());
         }
 
@@ -84,29 +84,28 @@ class ErrorHandler
     }
 
     /**
-     * @param string[] $errorsMessages
+     * @param ErrorDTO[] $errors
      * @return array
      */
-    private function renderErrorsObj(array $errorsMessages): array
+    private function renderErrorsObj(array $errors): array
     {
-        $errors = [];
-        foreach ($errorsMessages as $errorsMessage) {
+        $errorsData = [];
+        foreach ($errors as $error) {
             $errObj = new stdClass();
-            $errObj->message = $errorsMessage['message'];
-            if (isset($errorsMessage['details'])) {
-                $errObj->details = $errorsMessage['details'];
+            $errObj->message = (string)$error;
+            if ($error->getDetails() !== []) {
+                $errObj->details = $error->getDetails();
             }
-
-            $errors['errors'][] = $errObj;
+            $errorsData['errors'][] = $errObj;
         }
 
-        return $errors;
+        return $errorsData;
     }
 
     /**
      * @param ResponseInterface $response
      * @param int $code
-     * @param array $errors
+     * @param ErrorDTO[] $errors
      * @return ResponseInterface
      */
     private function createResponse(ResponseInterface $response, int $code, array $errors)

@@ -22,3 +22,5 @@ services:
     - MyApp\Handlers\NotAllowedHandler
     - Predis\Client(%redis.connectionString%)
     - MyApp\Redis\Repository
+    - MyApp\Validation\Validator
+    - MyApp\Action\User\Create\CreateValidationRuleProvider
