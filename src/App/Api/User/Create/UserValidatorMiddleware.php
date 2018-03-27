@@ -1,8 +1,8 @@
 <?php
-namespace MyApp\Middleware;
+namespace MyApp\Api\User\Create;
 
-use MyApp\Action\User\Create\CreateValidationRuleProvider;
 use MyApp\Error\ErrorDTO;
+use MyApp\Middleware\ValidatorMiddleware;
 use MyApp\Validation\Validator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

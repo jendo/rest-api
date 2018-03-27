@@ -1,7 +1,8 @@
 <?php
-namespace MyApp\Action\User\Create;
+namespace MyApp\Api\User\Create;
 
-use MyApp\Action\User\UserApiFields;
+use MyApp\Api\User\UserFields;
+use MyApp\Exception\UserNotFoundException;
 use MyApp\Redis\Repository;
 use MyApp\Validation\ValidationRuleProviderInterface;
 use Symfony\Component\Validator\Constraints;
@@ -31,9 +32,9 @@ class CreateValidationRuleProvider implements ValidationRuleProviderInterface
     public function getRules(): array
     {
         return [
-            UserApiFields::USER_ID => $this->createUserIdValidation(),
-            UserApiFields::NAME => $this->createUserNameValidation(),
-            UserApiFields::SURNAME => $this->createSurnameValidation(),
+            UserFields::USER_ID => $this->createUserIdValidation(),
+            UserFields::NAME => $this->createUserNameValidation(),
+            UserFields::SURNAME => $this->createSurnameValidation(),
         ];
     }
 
@@ -48,11 +49,16 @@ class CreateValidationRuleProvider implements ValidationRuleProviderInterface
                 new Constraints\Type('integer'),
                 new Callback(
                     function ($userId, ExecutionContextInterface $context) {
-                        $userData = $this->repository->getUserData($userId);
-                        if ($userData === []) {
-                            $context->addViolation(
-                                sprintf('User with id %d does not exist.', $userId)
-                            );
+                        $userAlreadyExists = true;
+
+                        try {
+                            $this->repository->getUserData($userId);
+                        } catch (UserNotFoundException $e) {
+                            $userAlreadyExists = false;
+                        }
+
+                        if ($userAlreadyExists) {
+                            $context->addViolation(sprintf('User with id %d already exist.', $userId));
                         }
                     }
                 )

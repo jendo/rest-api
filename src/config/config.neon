@@ -13,14 +13,16 @@ parameters:
 services:
     application: MyApp\Application
     - MyApp\Slim\ApplicationFactory
-    - MyApp\Middleware\UserValidatorMiddleware
+
+    - MyApp\Api\User\Create\UserValidatorMiddleware
+    - MyApp\Api\User\Create\CreateAction
+    - MyApp\Api\User\Create\CreateValidationRuleProvider
+
     - MyApp\Action\Game\Save\SaveAction
     - MyApp\Action\Game\Result\ResultAction
-    - MyApp\Action\User\Create\CreateAction
     - MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%, %slimConfiguration.settings.defaultContentType%)
     - MyApp\Handlers\NotFoundHandler
     - MyApp\Handlers\NotAllowedHandler
     - Predis\Client(%redis.connectionString%)
     - MyApp\Redis\Repository
     - MyApp\Validation\Validator
-    - MyApp\Action\User\Create\CreateValidationRuleProvider

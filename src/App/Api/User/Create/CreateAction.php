@@ -1,6 +1,5 @@
 <?php
-
-namespace MyApp\Action\User\Create;
+namespace MyApp\Api\User\Create;
 
 use MyApp\Action\ActionHandlerInterface;
 use MyApp\Redis\Repository;

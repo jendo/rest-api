@@ -1,8 +1,8 @@
 <?php
 
-namespace MyApp\Action\User;
+namespace MyApp\Api\User;
 
-interface UserApiFields
+interface UserFields
 {
     const USER_ID = 'userId';
     const NAME = 'name';

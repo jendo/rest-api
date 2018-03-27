@@ -3,7 +3,8 @@
 namespace MyApp\Redis;
 
 use MyApp\Action\Game\GameApiFields;
-use MyApp\Action\User\UserApiFields;
+use MyApp\Api\User\UserFields;
+use MyApp\Exception\UserNotFoundException;
 use Predis\Client;
 use Predis\Collection\Iterator;
 use Predis\Response\Status;
@@ -38,9 +39,9 @@ class Repository
      */
     public function saveUser(array $input): bool
     {
-        $userId = $input[UserApiFields::USER_ID];
-        $name = $input[UserApiFields::NAME];
-        $surname = $input[UserApiFields::SURNAME];
+        $userId = $input[UserFields::USER_ID];
+        $name = $input[UserFields::NAME];
+        $surname = $input[UserFields::SURNAME];
 
         $userKey = self::getUserKey($userId);
 
@@ -60,12 +61,18 @@ class Repository
     /**
      * @param int $userId
      * @return array
+     * @throws UserNotFoundException
      */
     public function getUserData(int $userId)
     {
         $userKey = self::getUserKey($userId);
+        $data = $this->redisClient->hgetall($userKey);
 
-        return $this->redisClient->hgetall($userKey);
+        if ($data === []) {
+            throw new UserNotFoundException();
+        }
+
+        return $data;
     }
 
     /**

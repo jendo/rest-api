@@ -7,9 +7,9 @@ parameters:
         routes:
             '/user/create':
                 post:
-                    service: MyApp\Action\User\Create\CreateAction
+                    service: MyApp\Api\User\Create\CreateAction
                     middleware:
-                        - MyApp\Middleware\UserValidatorMiddleware
+                        - MyApp\Api\User\Create\UserValidatorMiddleware
             '/game/save':
                 post:
                     service: MyApp\Action\Game\Save\SaveAction
