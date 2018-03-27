@@ -58,6 +58,17 @@ class Repository
     }
 
     /**
+     * @param int $userId
+     * @return array
+     */
+    public function getUserData(int $userId)
+    {
+        $userKey = self::getUserKey($userId);
+
+        return $this->redisClient->hgetall($userKey);
+    }
+
+    /**
      * @param array $input
      * @return int
      */
