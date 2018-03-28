@@ -2,8 +2,9 @@
 
 namespace MyApp\Redis;
 
-use MyApp\Action\Game\GameApiFields;
+use MyApp\Api\Game\GameFields;
 use MyApp\Api\User\UserFields;
+use MyApp\Exception\GameResultNotFoundException;
 use MyApp\Exception\UserNotFoundException;
 use Predis\Client;
 use Predis\Collection\Iterator;
@@ -81,22 +82,28 @@ class Repository
      */
     public function saveGameResult(array $input): int
     {
-        $userId = $input[GameApiFields::USER_ID];
-        $gameId = $input[GameApiFields::GAME_ID];
-        $score = $input[GameApiFields::SCORE];
+        $userId = $input[GameFields::USER_ID];
+        $gameId = $input[GameFields::GAME_ID];
+        $score = $input[GameFields::SCORE];
 
         $status = $this->redisClient->zadd(self::getGameResultKey($gameId), $score, self::getUserKey($userId));
 
         return $status;
     }
 
+
     /**
      * @param int $gameId
      * @return array
+     * @throws GameResultNotFoundException
      */
     public function getGameResult(int $gameId): array
     {
         $data = $this->redisClient->zrange(self::getGameResultKey($gameId), 0, 10, ['withScores' => TRUE]);
+
+        if ($data === []) {
+            throw new GameResultNotFoundException();
+        }
 
         return $data;
     }

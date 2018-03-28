@@ -7,7 +7,7 @@ use MyApp\Validation\Validator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class UserValidatorMiddleware extends ValidatorMiddleware
+class CreateValidatorMiddleware extends ValidatorMiddleware
 {
     /**
      * @var Validator

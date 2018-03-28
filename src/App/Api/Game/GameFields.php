@@ -1,8 +1,7 @@
 <?php
+namespace MyApp\Api\Game;
 
-namespace MyApp\Action\Game;
-
-interface GameApiFields
+interface GameFields
 {
     const GAME_ID = 'gameId';
     const USER_ID = 'userId';

@@ -9,16 +9,23 @@ abstract class ValidatorMiddleware implements MiddlewareInterface
 {
 
     /**
+     * @var ServerRequestInterface
+     */
+    protected $request;
+
+    /**
      * @inheritdoc
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
+        $this->request = $request;
+
         $errors = $this->getErrors($request, $response);
         if (count($errors) > 0) {
             throw new BadRequestException($errors);
         }
 
-        return $next($request, $response);
+        return $next($this->request, $response);
     }
 
     /**

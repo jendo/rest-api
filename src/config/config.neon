@@ -14,12 +14,16 @@ services:
     application: MyApp\Application
     - MyApp\Slim\ApplicationFactory
 
-    - MyApp\Api\User\Create\UserValidatorMiddleware
+    - MyApp\Api\User\Create\CreateValidatorMiddleware
     - MyApp\Api\User\Create\CreateAction
     - MyApp\Api\User\Create\CreateValidationRuleProvider
 
-    - MyApp\Action\Game\Save\SaveAction
-    - MyApp\Action\Game\Result\ResultAction
+    - MyApp\Api\GameResult\Get\GetAction
+    - MyApp\Api\GameResult\Get\GetValidatorMiddleware
+    - MyApp\Api\GameResult\Get\GetValidationRuleProvider
+
+    - MyApp\Api\Game\Create\CreateAction
+
     - MyApp\Handlers\ErrorHandler(%slimConfiguration.settings.displayErrorDetails%, %slimConfiguration.settings.defaultContentType%)
     - MyApp\Handlers\NotFoundHandler
     - MyApp\Handlers\NotAllowedHandler

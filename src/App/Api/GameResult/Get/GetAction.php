@@ -1,16 +1,16 @@
 <?php
-namespace MyApp\Action\Game\Result;
+namespace MyApp\Api\GameResult\Get;
 
 use MyApp\Action\ActionHandlerInterface;
+use MyApp\Api\GameResult\QueryParams;
+use MyApp\Exception\GameResultNotFoundException;
 use MyApp\Redis\Repository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use MyApp\Response\ResponseStatus;
 
-class ResultAction implements ActionHandlerInterface
+class GetAction implements ActionHandlerInterface
 {
-    const ARG_GAME_ID = 'id';
-
     /**
      * @var Repository
      */
@@ -32,14 +32,18 @@ class ResultAction implements ActionHandlerInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $arguments = [])
     {
-        $gameId = $arguments[self::ARG_GAME_ID];
+        $gameId = $arguments[QueryParams::GAME_ID];
 
-        $data = $this->redisRepository->getGameResult($gameId);
+        try {
+            $data = $this->redisRepository->getGameResult($gameId);
+            $responseBody = $response->getBody();
+            $responseBody->write(\GuzzleHttp\json_encode($data));
+            $response = $response->withBody($responseBody);
+            $status = ResponseStatus::S200_OK;
+        } catch (GameResultNotFoundException $e) {
+            $status = ResponseStatus::S404_NOT_FOUND;
+        }
 
-        $responseBody = $response->getBody();
-        $responseBody->write(\GuzzleHttp\json_encode($data));
-
-        $newResponse = $response->withBody($responseBody);
-        return $newResponse->withStatus(ResponseStatus::S200_OK);
+        return $response->withStatus($status);
     }
 }

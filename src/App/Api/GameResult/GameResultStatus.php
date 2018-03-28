@@ -1,7 +1,7 @@
 <?php
-namespace MyApp\Action\Game\Result;
+namespace MyApp\Api\GameResult;
 
-class ResultStatus
+class GameResultStatus
 {
     const SAVED = 1;
     const ALREADY_SAVED = 0;

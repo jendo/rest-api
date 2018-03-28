@@ -1,16 +1,15 @@
 <?php
-namespace MyApp\Action\Game\Save;
+namespace MyApp\Api\Game\Create;
 
 use MyApp\Action\ActionHandlerInterface;
-use MyApp\Action\Game\Result\ResultStatus;
+use MyApp\Api\GameResult\GameResultStatus;
 use MyApp\Redis\Repository;
 use MyApp\Response\ResponseStatus;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class SaveAction implements ActionHandlerInterface
+class CreateAction implements ActionHandlerInterface
 {
-
     /**
      * @var Repository
      */
@@ -47,10 +46,10 @@ class SaveAction implements ActionHandlerInterface
     private function getResponseStatusByGameResult(int $gameResult): int
     {
         switch ($gameResult) {
-            case ResultStatus::SAVED:
+            case GameResultStatus::SAVED:
                 $status = ResponseStatus::S201_CREATED;
                 break;
-            case ResultStatus::ALREADY_SAVED:
+            case GameResultStatus::ALREADY_SAVED:
                 $status = ResponseStatus::S304_NOT_MODIFIED;
                 break;
             default:
